@@ -1,30 +1,38 @@
 var yellow;
-var squiggle1;
+
+var squiggles = [];
 
 function setup(){
       createCanvas(windowWidth, windowHeight);
-    squiggle1 = new squiggle();
+    for (var i = 0; i < 50 ; i++)
+    {
+     squiggles.push(new squiggle());
+    }
 }
 
 function draw() {
         background(96,211,216);
-    squiggle1.runFromMouse();
+    for (var i = 0; i < squiggles.length; i++){
+        squiggles[i].runFromMouse();
+    }
+    
     
 }
 
 
-/// need an ellipse, a triangle
-//possibly as a class, so they can float and move
-//mouse position could be used to force them around
+/// need an ellipse, a triangle, custom shape
 
 function squiggle(){
 this.x = random(width);
   this.y = random(height);
-  this.diameter = random(10, 30);
+  this.diameter = random(10, 20);
     this.xSpeed = 0;
     this.ySpeed = 0;
     this.speed = 5;
+    this.shape = random(["ellipse","triangle"]);
+    this.theta = random(3);
 
+        
   this.move = function() {
     this.x += this.xSpeed;
     this.y += this.ySpeed;
@@ -34,7 +42,8 @@ this.x = random(width);
   this.display = function() {  
     fill(220,234,92);
     noStroke();
-    ellipse(this.x, this.y, this.diameter, this.diameter);
+      if ( this.shape == "ellipse") ellipse(this.x, this.y, this.diameter, this.diameter);
+      else if (this.shape == "triangle") this.drawTriangle();
   }
   this.runFromMouse = function(){
       var margin = width/20;
@@ -42,10 +51,14 @@ this.x = random(width);
           this.xSpeed = this.calcSpeed(mouseX,this.x);
           this.ySpeed = this.calcSpeed(mouseY,this.y);
           
-      }else {
-         // this.xSpeed = 0;
-          //this.ySpeed = 0;
       }
+      /* this would stop the squiggle if you end up out of range.
+      else {
+         this.xSpeed = 0;
+        this.ySpeed = 0;
+      }
+      */
+      
       //slow down and change direction when you hit a wall
       if(this.x < 0) this.xSpeed = 1;
       else if(this.x > width )this.xSpeed = -1;
@@ -57,10 +70,27 @@ this.x = random(width);
       this.move();
       this.display();
       
+      
   }
   this.calcSpeed = function (mouse, pos){
       if(mouse<pos) return this.speed;
       else if (mouse == pos) return 0;
       else if (mouse > pos) return -this.speed;
+  }
+  
+  this.drawTriangle = function(){
+      var x1 = this.x - this.diameter;
+      var y1 = this.y + this.diameter;
+      var x2 = this.x;
+      var y2 = this.y - this.diameter;
+      var x3 = this.x + this.diameter;
+      var y3 = this.y + this.diameter;
+//      
+//      fill(220,234,92);
+//      noStroke();
+      push();
+//rotate(this.theta);
+      triangle(x1,y1,x2,y2,x3,y3);
+      pop();
   }
 }
