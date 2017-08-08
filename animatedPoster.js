@@ -24,7 +24,7 @@ function setup(){
 
 function draw() {
 
-    camera(0, 0, sin(frameCount * 0.01) * 100);
+    //camera(0, 0, sin(frameCount * 0.01) * 100);
 
         background(96,211,216);
 
@@ -36,6 +36,7 @@ function draw() {
     image(img,mouseX-img.width/2,mouseY-img.height/2);
 //    texture(img);
 //    plane(img.width, img.height);
+
     
 }
 function mousePressed(){
@@ -54,7 +55,7 @@ this.x = random(width);
     this.xSpeed = 0;
     this.ySpeed = 0;
     this.speed = 5;
-    this.shape = random(["ellipse","triangle"]);
+    this.shape = random(["ellipse","triangle", "squiggle"]);
     this.theta = random(3);
 
         
@@ -69,7 +70,9 @@ this.x = random(width);
     noStroke();
       if ( this.shape == "ellipse") ellipse(this.x, this.y, this.diameter, this.diameter);
       else if (this.shape == "triangle") this.drawTriangle();
+      else if (this.shape == "squiggle") { stroke(220,234,92); strokeWeight(4); noFill(); this.drawSquiggle();}
   }
+  
   this.runFromMouse = function(){
       var margin = width/20;
       if( abs(mouseX - this.x) <= margin && abs(mouseY - this.y) <= margin){
@@ -117,5 +120,29 @@ this.x = random(width);
 //rotate(this.theta);
       triangle(x1,y1,x2,y2,x3,y3);
       pop();
+  }
+  
+  this.drawSquiggle = function(){
+      var d = this.diameter * 2;
+      
+      var x1 = this.x - d/2;
+      var y1 = this.y ;
+      var x2 = this.x - d/4;
+      var y2 = this.y + d/4;
+      var x3 = this.x;
+      var y3 = this.y;
+      var x4 = this.x + d/4;
+      var y4 = this.y + d/4;
+      var x5 = this.x+ d/2;
+      var y5 = this.y;
+      
+      beginShape();
+      vertex(x1,y1);
+      vertex(x2,y2);
+      vertex(x3,y3);
+      vertex(x4,y4);
+      vertex(x5,y5);
+      endShape();
+  
   }
 }
