@@ -1,25 +1,50 @@
 var yellow;
 
 var squiggles = [];
+var img;
+
+/*
+todo:
+squiggle
+export rest of text
+create filld in overlay things
+xperiment w sound
+xperiment with camera / star wars effect
+*/
 
 function setup(){
-      createCanvas(windowWidth, windowHeight);
-    for (var i = 0; i < 50 ; i++)
+    createCanvas(windowWidth, windowHeight);
+    for (var i = 0; i < 25 ; i++)
     {
      squiggles.push(new squiggle());
     }
+    img = loadImage("not-another.png");
+    //noLoop();
 }
 
 function draw() {
+
+    camera(0, 0, sin(frameCount * 0.01) * 100);
+
         background(96,211,216);
+
     for (var i = 0; i < squiggles.length; i++){
         squiggles[i].runFromMouse();
     }
-    
+
+
+    image(img,mouseX-img.width/2,mouseY-img.height/2);
+//    texture(img);
+//    plane(img.width, img.height);
     
 }
+function mousePressed(){
+    fullscreen(true);
+}
 
-
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+}
 /// need an ellipse, a triangle, custom shape
 
 function squiggle(){
